@@ -23,7 +23,7 @@
   }
 
   a {
-    @apply text-red-400 hover:text-red-300;
+    @apply text-red-600 hover:text-red-400;
   }
 
   img {
@@ -35,6 +35,10 @@
   }
 
   #navbar {
-    @apply text-2xl;
+    @apply flex justify-between items-center p-4 text-2xl;
+  }
+
+  #navbar nav {
+    @apply flex gap-6;
   }
 }
