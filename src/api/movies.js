@@ -1,8 +1,10 @@
 const API = import.meta.env.VITE_API;
 
-export async function getMovies() {
+export async function getMovies(token, query) {
   try {
-    const response = await fetch(API + "/movies");
+    const response = await fetch(API + "/movies?" + query, {
+      headers: token ? { Authorization: "Bearer " + token } : {},
+    });
     const result = await response.json();
     return result;
   } catch (e) {
