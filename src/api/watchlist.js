@@ -1,5 +1,6 @@
 const API = import.meta.env.VITE_API;
 
+/** Fetches the logged-in user's watchlist from the API. */
 export async function getWatchlist(token) {
   try {
     const response = await fetch(API + "/watchlist", {
@@ -13,6 +14,10 @@ export async function getWatchlist(token) {
   }
 }
 
+/**
+ * Asks the API to add the movie with the given ID to the watchlist.
+ * A valid token is required.
+ */
 export async function addToWatchlist(token, movieId) {
   if (!token) {
     throw Error("You must be logged in to update your watchlist.");
@@ -33,6 +38,10 @@ export async function addToWatchlist(token, movieId) {
   }
 }
 
+/**
+ * Asks the API to mark the watchlist item with the given ID as watched or unwatched.
+ * A valid token is required.
+ */
 export async function updateWatchlistItem(token, id, watched) {
   if (!token) {
     throw Error("You must be logged in to update your watchlist.");
@@ -53,6 +62,10 @@ export async function updateWatchlistItem(token, id, watched) {
   }
 }
 
+/**
+ * Asks the API to remove the watchlist item with the given ID.
+ * A valid token is required.
+ */
 export async function removeFromWatchlist(token, id) {
   if (!token) {
     throw Error("You must be logged in to update your watchlist.");

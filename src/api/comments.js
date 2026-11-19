@@ -1,5 +1,6 @@
 const API = import.meta.env.VITE_API;
 
+/** Fetches an array of all comments on the movie with the given ID. */
 export async function getComments(movieId) {
   try {
     const response = await fetch(API + "/movies/" + movieId + "/comments");
@@ -11,6 +12,10 @@ export async function getComments(movieId) {
   }
 }
 
+/**
+ * Asks the API to add a comment to the movie with the given ID.
+ * A valid token is required.
+ */
 export async function addComment(token, movieId, body) {
   if (!token) {
     throw Error("You must be logged in to comment.");
@@ -31,6 +36,10 @@ export async function addComment(token, movieId, body) {
   }
 }
 
+/**
+ * Asks the API to delete the comment with the given ID.
+ * A valid token is required.
+ */
 export async function deleteComment(token, id) {
   if (!token) {
     throw Error("You must be logged in to delete a comment.");

@@ -5,11 +5,13 @@ import { useAuth } from "../auth/AuthContext";
 
 import Watchlist from "./Watchlist";
 
+/** Shows the logged-in user's watchlist, or links to log in or register. */
 export default function WatchlistPage() {
   const { token } = useAuth();
 
   const [watchlist, setWatchlist] = useState([]);
 
+  /** Gets the user's watchlist from the API and saves it in state. */
   const syncWatchlist = async () => {
     const data = await getWatchlist(token);
     setWatchlist(data);

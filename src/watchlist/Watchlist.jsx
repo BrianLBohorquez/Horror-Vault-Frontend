@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { updateWatchlistItem, removeFromWatchlist } from "../api/watchlist";
 import { useAuth } from "../auth/AuthContext";
 
+/** Shows the user's watchlist, or a message if it's empty. */
 export default function Watchlist({ watchlist, syncWatchlist }) {
   if (watchlist.length === 0) return <p>Your watchlist is empty.</p>;
 
@@ -19,10 +20,12 @@ export default function Watchlist({ watchlist, syncWatchlist }) {
   );
 }
 
+/** Shows one watchlist movie with a Watched checkbox and a Remove button. */
 function WatchlistItem({ item, syncWatchlist }) {
   const { token } = useAuth();
   const [error, setError] = useState(null);
 
+  /** Marks this movie as watched or unwatched, then refreshes the watchlist. */
   const tryWatched = async () => {
     setError(null);
 
@@ -34,6 +37,7 @@ function WatchlistItem({ item, syncWatchlist }) {
     }
   };
 
+  /** Removes this movie from the watchlist, then refreshes it. */
   const tryRemove = async () => {
     setError(null);
 

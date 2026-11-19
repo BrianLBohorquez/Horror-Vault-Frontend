@@ -1,5 +1,6 @@
 const API = import.meta.env.VITE_API;
 
+/** Fetches the movies that match the given search, tags and sort from the API. */
 export async function getMovies(token, query) {
   try {
     const response = await fetch(API + "/movies?" + query, {
@@ -13,6 +14,7 @@ export async function getMovies(token, query) {
   }
 }
 
+/** Fetches a single movie from the API using its ID. */
 export async function getMovie(id) {
   try {
     const response = await fetch(API + "/movies/" + id);
@@ -24,6 +26,7 @@ export async function getMovie(id) {
   }
 }
 
+/** Fetches movies similar to the one with the given ID. */
 export async function getSimilarMovies(id) {
   try {
     const response = await fetch(API + "/movies/" + id + "/similar");
@@ -35,6 +38,7 @@ export async function getSimilarMovies(id) {
   }
 }
 
+/** Fetches the movies Brian logged most recently. */
 export async function getRecentMovies() {
   try {
     const response = await fetch(API + "/movies/recent");
@@ -46,6 +50,7 @@ export async function getRecentMovies() {
   }
 }
 
+/** Fetches 4 random movies that Brian rated highly. */
 export async function getRandomMovies() {
   try {
     const response = await fetch(API + "/movies/random");

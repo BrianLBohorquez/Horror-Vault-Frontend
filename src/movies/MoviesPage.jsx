@@ -7,6 +7,7 @@ import { useAuth } from "../auth/AuthContext";
 import MovieList from "./MovieList";
 import { tagColors } from "./tags";
 
+/** Shows every movie, with a search bar, tag filters and sorting that are kept in the URL. */
 export default function MoviesPage() {
   const { token } = useAuth();
 
@@ -27,16 +28,19 @@ export default function MoviesPage() {
   const order = searchParams.get("order") || "asc";
   const watched = searchParams.get("watched") || "";
 
+  /** Gets the movies that match the current URL from the API and saves them in state. */
   const syncMovies = async () => {
     const data = await getMovies(token, searchParams.toString());
     setMovies(data);
   };
 
+  /** Gets all subgenres from the API and saves them in state. */
   const syncSubgenres = async () => {
     const data = await getSubgenres();
     setSubgenres(data);
   };
 
+  /** Updates the URL with the given changes, removing any that are blank. */
   const changeParams = (changes) => {
     const params = new URLSearchParams(searchParams);
     for (const name in changes) {
@@ -63,6 +67,7 @@ export default function MoviesPage() {
     return () => clearTimeout(timer);
   }, [search, searchParams]);
 
+  /** Adds or removes a tag from the shown tags, and takes it out of the hidden tags. */
   const toggleShow = (name) => {
     if (shownTags.includes(name)) {
       setShownTags(shownTags.filter((tag) => tag !== name));
@@ -72,6 +77,7 @@ export default function MoviesPage() {
     }
   };
 
+  /** Adds or removes a tag from the hidden tags, and takes it out of the shown tags. */
   const toggleHide = (name) => {
     if (hiddenTags.includes(name)) {
       setHiddenTags(hiddenTags.filter((tag) => tag !== name));
@@ -81,12 +87,14 @@ export default function MoviesPage() {
     }
   };
 
+  /** Clears every shown and hidden tag and updates the movies. */
   const tryReset = () => {
     setShownTags([]);
     setHiddenTags([]);
     changeParams({ show: "", hide: "" });
   };
 
+  /** Applies the search and tag choices when the form is submitted. */
   const tryApply = (e) => {
     e.preventDefault();
     changeParams({
@@ -189,6 +197,7 @@ export default function MoviesPage() {
   );
 }
 
+/** Shows one column of subgenres in the tag filter. */
 function SubgenreColumn({
   subgenres,
   shownTags,
@@ -212,6 +221,7 @@ function SubgenreColumn({
   );
 }
 
+/** Shows one subgenre as a colored tag with Show and Hide checkboxes. */
 function SubgenreChoice({
   name,
   shownTags,

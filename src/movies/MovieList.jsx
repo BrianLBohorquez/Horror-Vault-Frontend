@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { tagColors, tagShortNames } from "./tags";
 
+/** Shows a list of movies, each linking to its own page. */
 export default function MovieList({ movies }) {
   return (
     <ul className="flex flex-wrap gap-6">
@@ -11,6 +12,7 @@ export default function MovieList({ movies }) {
   );
 }
 
+/** Shows one movie's poster, year, rating and tags. */
 function MovieListItem({ movie }) {
   return (
     <li className="w-32">

@@ -10,6 +10,7 @@ export default function Register() {
 
   const [error, setError] = useState(null);
 
+  /** Registers with the form's username and password, then goes to the home page. */
   const onRegister = async (formData) => {
     const username = formData.get("username");
     const password = formData.get("password");

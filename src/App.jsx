@@ -7,6 +7,7 @@ import MovieDetails from "./movies/MovieDetails";
 import HomePage from "./home/HomePage";
 import WatchlistPage from "./watchlist/WatchlistPage";
 
+/** Sets up the route for every page in the app. */
 export default function App() {
   return (
     <Routes>

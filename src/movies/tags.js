@@ -1,3 +1,4 @@
+/** The Tailwind background color for each subgenre's tag. */
 export const tagColors = {
   Slasher: "bg-red-600",
   Supernatural: "bg-indigo-600",
@@ -23,6 +24,7 @@ export const tagColors = {
   "Spook House": "bg-indigo-900",
 };
 
+/** The four-letter short name for each subgenre's tag. */
 export const tagShortNames = {
   Slasher: "SLSH",
   Supernatural: "SUPE",
