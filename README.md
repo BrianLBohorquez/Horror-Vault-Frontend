@@ -61,25 +61,6 @@ It has a sign-up/login feature so people can browse the selection and save movie
 ## Tech stack
 
 - Frontend: React, React Router, Vite and Tailwind CSS
-- Tools: GitHub Projects
-
-## Architecture
-
-The backend is an Express API connected to the PostgreSQL database, and the React frontend calls it with fetch. The backend is in the Horror-Vault-Backend repo.
-
-Horror-Vault-Frontend
-src
-api - fetch calls to the backend
-auth - login and register
-home, movies, watchlist - the pages
-layout - navbar
-
-## Usage
-
-1. Get the backend running first from the Horror-Vault-Backend repo.
-2. Copy example.env to .env.
-3. Run npm install
-4. Then run npm run dev.
 
 ## Credits
 
