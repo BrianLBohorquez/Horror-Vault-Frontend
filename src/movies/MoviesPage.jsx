@@ -5,31 +5,7 @@ import { getSubgenres } from "../api/subgenres";
 import { useAuth } from "../auth/AuthContext";
 
 import MovieList from "./MovieList";
-
-const tagColors = {
-  Slasher: "bg-red-600",
-  Supernatural: "bg-indigo-600",
-  "Horror Comedy": "bg-yellow-600",
-  Psychological: "bg-violet-600",
-  "Creature Feature": "bg-green-600",
-  "Sci-Fi Horror": "bg-cyan-600",
-  "Occult & Possession": "bg-purple-600",
-  "Home Invasion & Survival": "bg-orange-600",
-  "Serial Killer": "bg-slate-600",
-  "Body Horror": "bg-pink-600",
-  "Torture & Death Traps": "bg-stone-600",
-  Zombie: "bg-lime-600",
-  Vampire: "bg-rose-600",
-  "Folk Horror": "bg-amber-600",
-  "Found Footage": "bg-teal-600",
-  "Family Spooky": "bg-sky-600",
-  Campy: "bg-emerald-600",
-  "Erotic Horror": "bg-fuchsia-600",
-  "Thriller/Suspense": "bg-zinc-600",
-  "Action Horror": "bg-blue-600",
-  "Art House": "bg-amber-800",
-  "Spook House": "bg-indigo-900",
-};
+import { tagColors } from "./tags";
 
 export default function MoviesPage() {
   const { token } = useAuth();
@@ -123,12 +99,17 @@ export default function MoviesPage() {
   return (
     <>
       <h1>Movies</h1>
-      <form onSubmit={tryApply}>
-        <label>
-          Search
+      <form
+        onSubmit={tryApply}
+        className="flex flex-wrap items-center gap-4 mb-4"
+      >
+        <label className="w-full sm:w-auto">
+          <span className="sr-only">Search By Title</span>
           <input
             type="text"
             name="search"
+            placeholder="Search By Title"
+            className="w-full sm:w-80 border rounded px-2 py-1 bg-neutral-900 placeholder:text-neutral-500 focus:placeholder:text-transparent"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -164,7 +145,7 @@ export default function MoviesPage() {
             </div>
           </div>
         </details>
-        <label>
+        <label className="flex items-center gap-2">
           Sort by
           <select
             name="sort"
@@ -174,10 +155,10 @@ export default function MoviesPage() {
             <option value="title">Title</option>
             <option value="year">Year</option>
             <option value="logged">Date logged</option>
-            <option value="rating">My rating</option>
+            <option value="rating">Brian&apos;s Rating</option>
           </select>
         </label>
-        <label>
+        <label className="flex items-center gap-2">
           Order
           <select
             name="order"
@@ -189,7 +170,7 @@ export default function MoviesPage() {
           </select>
         </label>
         {token && (
-          <label>
+          <label className="flex items-center gap-2">
             Hide watched
             <input
               type="checkbox"
