@@ -90,7 +90,7 @@ export default function MovieDetails() {
       />
       <h2>More like this</h2>
       <MovieList movies={similarMovies} />
-      <Link to={"/movies?subgenre=" + encodeURIComponent(movie.subgenre)}>
+      <Link to={"/movies?show=" + encodeURIComponent(movie.subgenre)}>
         See more {movie.subgenre}
       </Link>
     </>
