@@ -58,7 +58,9 @@ function WatchlistItem({ item, syncWatchlist }) {
           loading="lazy"
         />
       ) : (
-        <p>No poster</p>
+        <div className="w-32 aspect-[2/3] bg-black border border-neutral-700 flex items-center justify-center text-center p-2">
+          {item.title}
+        </div>
       )}
       <Link to={"/movies/" + item.movie_id}>{item.title}</Link>
       <p>{item.year}</p>

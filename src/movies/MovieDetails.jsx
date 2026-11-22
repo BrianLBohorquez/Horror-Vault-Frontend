@@ -73,15 +73,23 @@ export default function MovieDetails() {
       {movie.poster_url ? (
         <img src={movie.poster_url} alt={"Poster of " + movie.title} />
       ) : (
-        <p>No poster</p>
+        <div className="w-32 aspect-[2/3] bg-black border border-neutral-700 flex items-center justify-center text-center p-2">
+          {movie.title}
+        </div>
       )}
       <h1>{movie.title}</h1>
       <p>{movie.year}</p>
       <p>{movie.subgenre}</p>
+      {movie.synopsis && <p>{movie.synopsis}</p>}
       {movie.rating ? <p>Rating: {movie.rating}</p> : <p>Not rated</p>}
       {movie.liked && <p>Liked</p>}
       <p>Logged {new Date(movie.date_logged).toLocaleDateString()}</p>
       {movie.review && <p>{movie.review}</p>}
+      {movie.letterboxd_url && (
+        <a href={movie.letterboxd_url} target="_blank" rel="noreferrer">
+          View on Letterboxd
+        </a>
+      )}
       {token && (
         <button onClick={tryAdd} disabled={added}>
           {added ? "Added to watchlist" : "Add to watchlist"}
