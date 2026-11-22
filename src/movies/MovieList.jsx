@@ -24,7 +24,9 @@ function MovieListItem({ movie }) {
             loading="lazy"
           />
         ) : (
-          <p>{movie.title}</p>
+          <div className="w-32 aspect-[2/3] bg-black border border-neutral-700 flex items-center justify-center text-center p-2">
+            {movie.title}
+          </div>
         )}
       </Link>
       <div className="flex justify-between items-center gap-2 my-1">
