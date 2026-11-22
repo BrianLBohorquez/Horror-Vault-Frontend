@@ -10,6 +10,7 @@ export default function Login() {
 
   const [error, setError] = useState(null);
 
+  /** Logs in with the form's username and password, then goes to the home page. */
   const onLogin = async (formData) => {
     const username = formData.get("username");
     const password = formData.get("password");

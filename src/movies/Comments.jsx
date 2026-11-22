@@ -2,6 +2,7 @@ import { useState } from "react";
 import { addComment, deleteComment } from "../api/comments";
 import { useAuth } from "../auth/AuthContext";
 
+/** Shows a movie's comments, with a form to post one for logged-in users. */
 export default function Comments({
   movieId,
   comments,
@@ -11,6 +12,7 @@ export default function Comments({
   const { token } = useAuth();
   const [error, setError] = useState(null);
 
+  /** Posts the comment from the form, then refreshes the comments. */
   const tryAdd = async (formData) => {
     setError(null);
     const body = formData.get("body");
@@ -54,10 +56,12 @@ export default function Comments({
   );
 }
 
+/** Shows one comment, with a Delete button if it belongs to the logged-in user. */
 function CommentItem({ comment, account, syncComments }) {
   const { token } = useAuth();
   const [error, setError] = useState(null);
 
+  /** Deletes this comment, then refreshes the comments. */
   const tryDelete = async () => {
     setError(null);
 

@@ -1,5 +1,9 @@
 const API = import.meta.env.VITE_API;
 
+/**
+ * Fetches the ID and username of the logged-in user.
+ * A valid token is required.
+ */
 export async function getAccount(token) {
   try {
     const response = await fetch(API + "/users/me", {

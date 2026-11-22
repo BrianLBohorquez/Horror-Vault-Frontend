@@ -9,6 +9,7 @@ import { useAuth } from "../auth/AuthContext";
 import MovieList from "./MovieList";
 import Comments from "./Comments";
 
+/** Shows the details of one movie, with its comments and similar movies. */
 export default function MovieDetails() {
   const { id } = useParams();
   const { token } = useAuth();
@@ -20,21 +21,25 @@ export default function MovieDetails() {
   const [added, setAdded] = useState(false);
   const [error, setError] = useState(null);
 
+  /** Gets this movie's info from the API and saves it in state. */
   const syncMovie = async () => {
     const data = await getMovie(id);
     setMovie(data);
   };
 
+  /** Gets movies similar to this one from the API and saves them in state. */
   const syncSimilarMovies = async () => {
     const data = await getSimilarMovies(id);
     setSimilarMovies(data);
   };
 
+  /** Gets this movie's comments from the API and saves them in state. */
   const syncComments = async () => {
     const data = await getComments(id);
     setComments(data);
   };
 
+  /** Gets the logged-in user's account from the API and saves it in state. */
   const syncAccount = async () => {
     const data = await getAccount(token);
     setAccount(data);
@@ -49,6 +54,7 @@ export default function MovieDetails() {
     setError(null);
   }, [id]);
 
+  /** Adds this movie to the user's watchlist, then disables the button. */
   const tryAdd = async () => {
     setError(null);
 

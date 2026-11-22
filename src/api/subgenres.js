@@ -1,5 +1,6 @@
 const API = import.meta.env.VITE_API;
 
+/** Fetches an array of all subgenres from the API. */
 export async function getSubgenres() {
   try {
     const response = await fetch(API + "/subgenres");
