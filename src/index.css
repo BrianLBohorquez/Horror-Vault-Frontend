@@ -15,11 +15,11 @@
   }
 
   h1 {
-    @apply text-3xl font-bold text-red-600 mb-4;
+    @apply text-3xl font-bold text-red-600 underline decoration-white mb-4;
   }
 
   h2 {
-    @apply text-2xl font-semibold text-red-600 mt-6 mb-2;
+    @apply text-2xl font-semibold text-red-600 underline decoration-white mt-6 mb-2;
   }
 
   a {
@@ -43,6 +43,10 @@
   }
 
   #navbar nav {
-    @apply flex gap-6;
+    @apply flex items-center gap-6;
+  }
+
+  #navbar nav a {
+    @apply text-3xl underline decoration-white;
   }
 }

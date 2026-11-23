@@ -94,7 +94,7 @@ export default function MovieDetails() {
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-4 mb-4">
-              <h1 className="mb-0 rounded border border-red-600 bg-neutral-950 px-3 py-2">
+              <h1 className="mb-0 rounded border border-red-600 bg-neutral-950 px-3 py-2 text-white underline decoration-red-600">
                 {movie.title}
               </h1>
               {movie.letterboxd_url && (
@@ -114,7 +114,7 @@ export default function MovieDetails() {
               )}
             </div>
             {error && <p role="alert">{error}</p>}
-            <ul className="flex flex-wrap gap-2 mb-2">
+            <ul className="flex flex-wrap items-center gap-2 mb-2">
               <li className="rounded px-1 bg-blue-950">{movie.year}</li>
               {movie.rating ? (
                 <li className="rounded px-1 whitespace-nowrap bg-green-900">
@@ -122,6 +122,14 @@ export default function MovieDetails() {
                 </li>
               ) : (
                 <li className="rounded px-1 bg-red-900">Not rated</li>
+              )}
+              {movie.liked && (
+                <li
+                  aria-label="Liked"
+                  className="text-2xl leading-none text-red-600"
+                >
+                  ♥
+                </li>
               )}
               {[movie.subgenre, movie.subgenre_2, movie.subgenre_3]
                 .filter((tag) => tag)
@@ -142,7 +150,6 @@ export default function MovieDetails() {
                 {movie.synopsis}
               </p>
             )}
-            {movie.liked && <p>Liked</p>}
           </div>
           <div className="shrink-0 sm:ml-auto">
             <Votes

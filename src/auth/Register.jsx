@@ -23,21 +23,38 @@ export default function Register() {
   };
 
   return (
-    <>
+    <section className="max-w-md mx-auto rounded border border-neutral-800 bg-neutral-900 p-4">
       <h1>Register for an account</h1>
-      <form action={onRegister}>
-        <label>
+      <form action={onRegister} className="flex flex-col gap-4">
+        <label className="flex flex-col gap-1">
           Username
-          <input type="text" name="username" />
+          <input
+            type="text"
+            name="username"
+            className="border rounded px-2 py-1 bg-neutral-950"
+          />
         </label>
-        <label>
+        <label className="flex flex-col gap-1">
           Password
-          <input type="password" name="password" required />
+          <input
+            type="password"
+            name="password"
+            required
+            className="border rounded px-2 py-1 bg-neutral-950"
+          />
         </label>
-        <button>Register</button>
+        <button className="w-fit">Register</button>
         {error && <output>{error}</output>}
       </form>
-      <Link to="/login">Already have an account? Log in here.</Link>
-    </>
+      <p className="mt-4">
+        Already have an account?
+        <Link
+          to="/login"
+          className="inline-block ml-2 border rounded px-2 py-1 text-neutral-200 hover:bg-neutral-800"
+        >
+          Log in here
+        </Link>
+      </p>
+    </section>
   );
 }

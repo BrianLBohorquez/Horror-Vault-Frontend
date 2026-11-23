@@ -90,7 +90,7 @@ export default function HomePage() {
   );
 }
 
-/** Shows one movie's poster, year, rating, tags and the start of Brian's review. */
+/** Shows one movie's poster, year, rating (with a heart if Brian liked it), tags and the start of Brian's review. */
 function BrianPick({ movie }) {
   return (
     <section className="flex flex-col sm:flex-row gap-4 mb-4">
@@ -104,11 +104,19 @@ function BrianPick({ movie }) {
         )}
       </Link>
       <div>
-        <ul className="flex flex-wrap gap-2 mb-2">
+        <ul className="flex flex-wrap items-center gap-2 mb-2">
           <li className="rounded px-1 bg-blue-950">{movie.year}</li>
           <li className="rounded px-1 whitespace-nowrap bg-green-900">
             {getStars(movie.rating)}
           </li>
+          {movie.liked && (
+            <li
+              aria-label="Liked"
+              className="text-2xl leading-none text-red-600"
+            >
+              ♥
+            </li>
+          )}
           {[movie.subgenre, movie.subgenre_2, movie.subgenre_3]
             .filter((tag) => tag)
             .map((tag) => (
