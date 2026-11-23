@@ -52,8 +52,8 @@ export default function HomePage() {
     <div className="flex flex-col gap-8 lg:flex-row">
       <div className="min-w-0 lg:w-3/5">
         <section className="rounded border border-neutral-800 p-4">
+          <h1>Random Picks</h1>
           {randomMovies.length > 0 && <BrianPick movie={randomMovies[0]} />}
-          <h2>Random Picks</h2>
           <MovieList movies={randomMovies.slice(1)} small />
         </section>
         <h2>Brian&apos;s Recently Seen</h2>
@@ -70,11 +70,11 @@ export default function HomePage() {
   );
 }
 
-/** Shows one movie's poster, title, rating and the start of Brian's review. */
+/** Shows one movie's poster, year, rating and the start of Brian's review. */
 function BrianPick({ movie }) {
   return (
-    <section className="flex flex-col sm:flex-row gap-4">
-      <Link to={"/movies/" + movie.id} title={movie.title}>
+    <section className="flex flex-col sm:flex-row gap-4 mb-4">
+      <Link to={"/movies/" + movie.id} title={movie.title} className="shrink-0">
         {movie.poster_url ? (
           <img src={movie.poster_url} alt={"Poster of " + movie.title} />
         ) : (
@@ -84,7 +84,6 @@ function BrianPick({ movie }) {
         )}
       </Link>
       <div>
-        <h1>Brian&apos;s Pick: {movie.title}</h1>
         <p>{movie.year}</p>
         <p>Rating: {movie.rating}/5</p>
         <p className="line-clamp-6 whitespace-pre-line my-2">{movie.review}</p>
