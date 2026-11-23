@@ -49,3 +49,10 @@ export const tagShortNames = {
   "Art House": "ARTH",
   "Spook House": "SPOK",
 };
+
+/** Turns a rating like 3.5 into solid stars with a ½ for a half, like ★★★½. */
+export function getStars(rating) {
+  const fullStars = Math.floor(rating);
+  const halfStar = rating % 1 === 0 ? "" : "½";
+  return "★".repeat(fullStars) + halfStar;
+}

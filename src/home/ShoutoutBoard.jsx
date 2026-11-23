@@ -35,7 +35,7 @@ export default function ShoutoutBoard({ shoutouts, account, syncShoutouts }) {
               className="w-full border rounded px-2 py-1 bg-neutral-950 placeholder:text-neutral-500"
             />
           </label>
-          <button className="border rounded px-2">Post</button>
+          <button>Post</button>
           {error && <p role="alert">{error}</p>}
         </form>
       )}

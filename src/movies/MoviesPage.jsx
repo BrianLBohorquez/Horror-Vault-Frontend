@@ -142,12 +142,8 @@ export default function MoviesPage() {
               />
             </div>
             <div className="flex gap-4 mt-2">
-              <button className="border rounded px-2">Apply</button>
-              <button
-                type="button"
-                className="border rounded px-2"
-                onClick={tryReset}
-              >
+              <button>Apply</button>
+              <button type="button" onClick={tryReset}>
                 Reset
               </button>
             </div>

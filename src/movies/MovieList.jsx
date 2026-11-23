@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { tagColors, tagShortNames } from "./tags";
+import { tagColors, tagShortNames, getStars } from "./tags";
 
 /** Shows a list of movies, each linking to its own page, in one sideways-scrolling row when scroll is set and with smaller posters when small is set. */
 export default function MovieList({ movies, scroll, small }) {
@@ -23,6 +23,9 @@ function MovieListItem({ movie, small }) {
   const width = small ? "w-28" : "w-32";
   const cardWidth = small ? "w-30" : "w-34";
   const pillSize = small ? "text-[0.625rem] px-0.5" : "text-xs px-1";
+  const starSize = small
+    ? "text-[0.625rem] px-0.5"
+    : "text-[0.625rem] leading-4 px-1";
 
   return (
     <li className={cardWidth + " shrink-0 snap-start rounded bg-red-950 p-1"}>
@@ -49,8 +52,8 @@ function MovieListItem({ movie, small }) {
         <div className="flex flex-col items-start gap-1 shrink-0">
           <p className={"rounded bg-blue-950 " + pillSize}>{movie.year}</p>
           {movie.rating ? (
-            <p className={"rounded whitespace-nowrap bg-green-900 " + pillSize}>
-              {movie.rating}/5 ★
+            <p className={"rounded whitespace-nowrap bg-green-900 " + starSize}>
+              {getStars(movie.rating)}
             </p>
           ) : (
             <p className={"rounded bg-red-900 " + pillSize}>Not rated</p>

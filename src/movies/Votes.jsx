@@ -24,31 +24,40 @@ export default function Votes({ movieId, votes, account, syncVotes }) {
   };
 
   return (
-    <div className="my-2">
+    <div className="w-fit rounded bg-neutral-950 p-2 flex flex-col items-center gap-2">
+      {token && (
+        <div className="flex items-start gap-2">
+          <div className="flex flex-col items-center gap-1">
+            <p>Agree</p>
+            <button
+              className="border-green-700 bg-green-900"
+              onClick={() => tryVote(true)}
+              disabled={myVote && myVote.thumbs_up}
+              aria-label="Agree"
+            >
+              👍
+            </button>
+          </div>
+          <p>or</p>
+          <div className="flex flex-col items-center gap-1">
+            <p>Disagree</p>
+            <button
+              className="border-red-700 bg-red-900"
+              onClick={() => tryVote(false)}
+              disabled={myVote && !myVote.thumbs_up}
+              aria-label="Disagree"
+            >
+              👎
+            </button>
+          </div>
+        </div>
+      )}
       {votes.length === 0 ? (
         <p>No votes yet.</p>
       ) : (
         <p>
-          {percent}% thumbs up ({votes.length} total)
+          {percent}% agree ({votes.length} total)
         </p>
-      )}
-      {token && (
-        <div className="flex gap-2">
-          <button
-            className="border rounded px-2"
-            onClick={() => tryVote(true)}
-            disabled={myVote && myVote.thumbs_up}
-          >
-            Thumbs up
-          </button>
-          <button
-            className="border rounded px-2"
-            onClick={() => tryVote(false)}
-            disabled={myVote && !myVote.thumbs_up}
-          >
-            Thumbs down
-          </button>
-        </div>
       )}
       {error && <p role="alert">{error}</p>}
     </div>
