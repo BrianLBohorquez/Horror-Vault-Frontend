@@ -3,13 +3,15 @@ import { useParams, Link } from "react-router";
 import { getMovie, getSimilarMovies } from "../api/movies";
 import { addToWatchlist } from "../api/watchlist";
 import { getComments } from "../api/comments";
+import { getVotes } from "../api/votes";
 import { getAccount } from "../api/users";
 import { useAuth } from "../auth/AuthContext";
 
 import MovieList from "./MovieList";
 import Comments from "./Comments";
+import Votes from "./Votes";
 
-/** Shows the details of one movie, with its comments and similar movies. */
+/** Shows the details of one movie, with its votes, comments and similar movies. */
 export default function MovieDetails() {
   const { id } = useParams();
   const { token } = useAuth();
@@ -17,6 +19,7 @@ export default function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const [similarMovies, setSimilarMovies] = useState([]);
   const [comments, setComments] = useState([]);
+  const [votes, setVotes] = useState([]);
   const [account, setAccount] = useState(null);
   const [added, setAdded] = useState(false);
   const [error, setError] = useState(null);
@@ -39,6 +42,12 @@ export default function MovieDetails() {
     setComments(data);
   };
 
+  /** Gets this movie's votes from the API and saves them in state. */
+  const syncVotes = async () => {
+    const data = await getVotes(id);
+    setVotes(data);
+  };
+
   /** Gets the logged-in user's account from the API and saves it in state. */
   const syncAccount = async () => {
     const data = await getAccount(token);
@@ -49,6 +58,7 @@ export default function MovieDetails() {
     syncMovie();
     syncSimilarMovies();
     syncComments();
+    syncVotes();
     if (token) syncAccount();
     setAdded(false);
     setError(null);
@@ -83,6 +93,12 @@ export default function MovieDetails() {
       {movie.synopsis && <p>{movie.synopsis}</p>}
       {movie.rating ? <p>Rating: {movie.rating}</p> : <p>Not rated</p>}
       {movie.liked && <p>Liked</p>}
+      <Votes
+        movieId={movie.id}
+        votes={votes}
+        account={account}
+        syncVotes={syncVotes}
+      />
       <p>Logged {new Date(movie.date_logged).toLocaleDateString()}</p>
       {movie.review && <p>{movie.review}</p>}
       {movie.letterboxd_url && (

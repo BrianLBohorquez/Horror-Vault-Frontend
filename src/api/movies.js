@@ -50,7 +50,7 @@ export async function getRecentMovies() {
   }
 }
 
-/** Fetches 4 random movies that Brian rated highly. */
+/** Fetches 4 random movies that Brian rated highly, the first one with a review. */
 export async function getRandomMovies() {
   try {
     const response = await fetch(API + "/movies/random");
