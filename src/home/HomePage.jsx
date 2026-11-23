@@ -8,7 +8,7 @@ import { useAuth } from "../auth/AuthContext";
 import MovieList from "../movies/MovieList";
 import ShoutoutBoard from "./ShoutoutBoard";
 
-/** Shows a random reviewed pick, Brian's most recently logged movies, a few more random picks and the shout out board. */
+/** Shows an intro to the site, a random reviewed pick with a few more random picks, Brian's most recently logged movies and the shout out board. */
 export default function HomePage() {
   const { token } = useAuth();
 
@@ -49,24 +49,43 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-8 lg:flex-row">
-      <div className="min-w-0 lg:w-3/5">
-        <section className="rounded border border-neutral-800 p-4">
-          <h1>Random Picks</h1>
-          {randomMovies.length > 0 && <BrianPick movie={randomMovies[0]} />}
-          <MovieList movies={randomMovies.slice(1)} small />
-        </section>
-        <h2>Brian&apos;s Recently Seen</h2>
-        <MovieList movies={recentMovies} scroll />
+    <>
+      <section className="rounded border border-neutral-800 bg-neutral-900 p-4 mb-8">
+        <h1>Welcome to the Horror Vault</h1>
+        <p className="max-w-3xl">
+          Horror Vault is a horror movie database built from my own Letterboxd
+          ratings and reviews. Every movie is tagged by its subgenres, so you
+          can browse by the kind of horror you&apos;re in the mood for and find
+          similar movies based off my ratings.
+        </p>
+        <p className="max-w-3xl mt-2">
+          Search, sort and filter by tag on the <Link to="/movies">Movies</Link>{" "}
+          page. <Link to="/register">Make an account</Link> to save movies to
+          your watchlist, give them a thumbs up or down, leave comments and send
+          me a suggestion on the Shout Out Board.
+        </p>
+      </section>
+      <div className="flex flex-col gap-8 lg:flex-row">
+        <div className="min-w-0 lg:w-3/5 flex flex-col gap-8">
+          <section className="rounded border border-neutral-800 bg-neutral-900 p-4">
+            <h2 className="mt-0">Random Picks</h2>
+            {randomMovies.length > 0 && <BrianPick movie={randomMovies[0]} />}
+            <MovieList movies={randomMovies.slice(1)} small />
+          </section>
+          <section className="rounded border border-neutral-800 bg-neutral-900 p-4">
+            <h2 className="mt-0">Brian&apos;s Recently Seen</h2>
+            <MovieList movies={recentMovies} scroll />
+          </section>
+        </div>
+        <div className="lg:w-2/5 lg:relative">
+          <ShoutoutBoard
+            shoutouts={shoutouts}
+            account={account}
+            syncShoutouts={syncShoutouts}
+          />
+        </div>
       </div>
-      <div className="lg:w-2/5">
-        <ShoutoutBoard
-          shoutouts={shoutouts}
-          account={account}
-          syncShoutouts={syncShoutouts}
-        />
-      </div>
-    </div>
+    </>
   );
 }
 

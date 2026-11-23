@@ -7,8 +7,8 @@ export default function MovieList({ movies, scroll, small }) {
     <ul
       className={
         scroll
-          ? "flex gap-6 overflow-x-auto snap-x pb-2"
-          : "flex flex-wrap gap-6"
+          ? "flex items-start gap-6 overflow-x-auto snap-x pb-2"
+          : "flex flex-wrap items-start gap-6"
       }
     >
       {movies.map((movie) => (
@@ -20,10 +20,12 @@ export default function MovieList({ movies, scroll, small }) {
 
 /** Shows one movie's poster, year, rating and tags. */
 function MovieListItem({ movie, small }) {
-  const width = small ? "w-24" : "w-32";
+  const width = small ? "w-28" : "w-32";
+  const cardWidth = small ? "w-30" : "w-34";
+  const pillSize = small ? "text-[0.625rem] px-0.5" : "text-xs px-1";
 
   return (
-    <li className={width + " shrink-0 snap-start"}>
+    <li className={cardWidth + " shrink-0 snap-start rounded bg-red-950 p-1"}>
       <Link to={"/movies/" + movie.id} title={movie.title}>
         {movie.poster_url ? (
           <img
@@ -43,30 +45,36 @@ function MovieListItem({ movie, small }) {
           </div>
         )}
       </Link>
-      <div className="flex justify-between items-center gap-2 my-1">
-        <p className="rounded px-1 text-xs bg-red-900">{movie.year}</p>
-        {movie.rating ? (
-          <p className="rounded px-1 text-xs bg-red-900">{movie.rating}/5</p>
-        ) : (
-          <p className="rounded px-1 text-xs bg-red-900">Not rated</p>
-        )}
+      <div className="flex justify-between items-start gap-1 mt-1">
+        <div className="flex flex-col items-start gap-1 shrink-0">
+          <p className={"rounded bg-blue-950 " + pillSize}>{movie.year}</p>
+          {movie.rating ? (
+            <p className={"rounded whitespace-nowrap bg-green-900 " + pillSize}>
+              {movie.rating}/5 ★
+            </p>
+          ) : (
+            <p className={"rounded bg-red-900 " + pillSize}>Not rated</p>
+          )}
+        </div>
+        <ul className="flex flex-row-reverse flex-wrap gap-1">
+          {[movie.subgenre, movie.subgenre_2, movie.subgenre_3]
+            .filter((tag) => tag)
+            .map((tag) => (
+              <li
+                key={tag}
+                title={tag}
+                className={
+                  "rounded text-white " +
+                  pillSize +
+                  " " +
+                  (tagColors[tag] || "bg-neutral-600")
+                }
+              >
+                {tagShortNames[tag] || tag}
+              </li>
+            ))}
+        </ul>
       </div>
-      <ul className="flex flex-wrap gap-1">
-        {[movie.subgenre, movie.subgenre_2, movie.subgenre_3]
-          .filter((tag) => tag)
-          .map((tag) => (
-            <li
-              key={tag}
-              title={tag}
-              className={
-                "rounded px-1 text-xs text-white " +
-                (tagColors[tag] || "bg-neutral-600")
-              }
-            >
-              {tagShortNames[tag] || tag}
-            </li>
-          ))}
-      </ul>
     </li>
   );
 }

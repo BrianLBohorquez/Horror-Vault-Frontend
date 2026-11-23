@@ -21,7 +21,7 @@ export default function ShoutoutBoard({ shoutouts, account, syncShoutouts }) {
   };
 
   return (
-    <section className="rounded border border-neutral-800 bg-neutral-900 p-4">
+    <section className="rounded border border-neutral-800 bg-neutral-900 p-4 flex flex-col lg:absolute lg:inset-0">
       <h2 className="mt-0">Shout Out Board</h2>
       {token && (
         <form action={tryAdd} className="flex flex-col items-start gap-2 mb-4">
@@ -42,7 +42,7 @@ export default function ShoutoutBoard({ shoutouts, account, syncShoutouts }) {
       {shoutouts.length === 0 ? (
         <p>No shout outs yet.</p>
       ) : (
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-4 overflow-y-auto pr-2 max-h-96 lg:max-h-none lg:flex-1 lg:min-h-0">
           {shoutouts.map((shoutout) => (
             <ShoutoutItem
               key={shoutout.id}
