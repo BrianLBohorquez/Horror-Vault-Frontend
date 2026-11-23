@@ -7,8 +7,9 @@ import { useAuth } from "../auth/AuthContext";
 
 import MovieList from "../movies/MovieList";
 import ShoutoutBoard from "./ShoutoutBoard";
+import { tagColors, getStars } from "../movies/tags";
 
-/** Shows a random reviewed pick, Brian's most recently logged movies, a few more random picks and the shout out board. */
+/** Shows an intro to the site, a random reviewed pick with a few more random picks, Brian's most recently logged movies and the shout out board. */
 export default function HomePage() {
   const { token } = useAuth();
 
@@ -49,28 +50,47 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-8 lg:flex-row">
-      <div className="min-w-0 lg:w-3/5">
-        <section className="rounded border border-neutral-800 p-4">
-          <h1>Random Picks</h1>
-          {randomMovies.length > 0 && <BrianPick movie={randomMovies[0]} />}
-          <MovieList movies={randomMovies.slice(1)} small />
-        </section>
-        <h2>Brian&apos;s Recently Seen</h2>
-        <MovieList movies={recentMovies} scroll />
+    <>
+      <section className="rounded border border-neutral-800 bg-neutral-900 p-4 mb-8">
+        <h1>Welcome to the Horror Vault</h1>
+        <p className="max-w-3xl">
+          Horror Vault is a horror movie database built from my own Letterboxd
+          ratings and reviews. Every movie is tagged by its subgenres, so you
+          can browse by the kind of horror you&apos;re in the mood for and find
+          similar movies based off my ratings.
+        </p>
+        <p className="max-w-3xl mt-2">
+          Search, sort and filter by tag on the <Link to="/movies">Movies</Link>{" "}
+          page. <Link to="/register">Make an account</Link> to save movies to
+          your watchlist, give them a thumbs up or down, leave comments and send
+          me a suggestion on the Shout Out Board.
+        </p>
+      </section>
+      <div className="flex flex-col gap-8 lg:flex-row">
+        <div className="min-w-0 lg:w-3/5 flex flex-col gap-8">
+          <section className="rounded border border-neutral-800 bg-neutral-900 p-4">
+            <h2 className="mt-0">Random Picks</h2>
+            {randomMovies.length > 0 && <BrianPick movie={randomMovies[0]} />}
+            <MovieList movies={randomMovies.slice(1)} small />
+          </section>
+          <section className="rounded border border-neutral-800 bg-neutral-900 p-4">
+            <h2 className="mt-0">Brian&apos;s Recently Seen</h2>
+            <MovieList movies={recentMovies} scroll />
+          </section>
+        </div>
+        <div className="lg:w-2/5 lg:relative">
+          <ShoutoutBoard
+            shoutouts={shoutouts}
+            account={account}
+            syncShoutouts={syncShoutouts}
+          />
+        </div>
       </div>
-      <div className="lg:w-2/5">
-        <ShoutoutBoard
-          shoutouts={shoutouts}
-          account={account}
-          syncShoutouts={syncShoutouts}
-        />
-      </div>
-    </div>
+    </>
   );
 }
 
-/** Shows one movie's poster, year, rating and the start of Brian's review. */
+/** Shows one movie's poster, year, rating (with a heart if Brian liked it), tags and the start of Brian's review. */
 function BrianPick({ movie }) {
   return (
     <section className="flex flex-col sm:flex-row gap-4 mb-4">
@@ -84,10 +104,42 @@ function BrianPick({ movie }) {
         )}
       </Link>
       <div>
-        <p>{movie.year}</p>
-        <p>Rating: {movie.rating}/5</p>
-        <p className="line-clamp-6 whitespace-pre-line my-2">{movie.review}</p>
-        <Link to={"/movies/" + movie.id}>Read the full review</Link>
+        <ul className="flex flex-wrap items-center gap-2 mb-2">
+          <li className="rounded px-1 bg-blue-950">{movie.year}</li>
+          <li className="rounded px-1 whitespace-nowrap bg-green-900">
+            {getStars(movie.rating)}
+          </li>
+          {movie.liked && (
+            <li
+              aria-label="Liked"
+              className="text-2xl leading-none text-red-600"
+            >
+              ♥
+            </li>
+          )}
+          {[movie.subgenre, movie.subgenre_2, movie.subgenre_3]
+            .filter((tag) => tag)
+            .map((tag) => (
+              <li
+                key={tag}
+                className={
+                  "rounded px-1 text-white " +
+                  (tagColors[tag] || "bg-neutral-600")
+                }
+              >
+                {tag}
+              </li>
+            ))}
+        </ul>
+        <p className="rounded bg-neutral-950 p-3 line-clamp-6 whitespace-pre-line">
+          {movie.review}
+        </p>
+        <Link
+          to={"/movies/" + movie.id}
+          className="inline-block mt-4 border rounded px-2 py-1 text-neutral-200 hover:bg-neutral-800"
+        >
+          Read the full review
+        </Link>
       </div>
     </section>
   );

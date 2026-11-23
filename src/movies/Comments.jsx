@@ -27,12 +27,18 @@ export default function Comments({
 
   return (
     <>
-      <h2>Comments</h2>
+      <h2 className="mt-0">Comments</h2>
       {token && (
-        <form action={tryAdd}>
-          <label>
-            Leave a comment
-            <textarea name="body" required />
+        <form action={tryAdd} className="flex flex-col items-start gap-2 mb-4">
+          <label className="w-full">
+            <span className="sr-only">Leave a comment</span>
+            <textarea
+              name="body"
+              placeholder="Leave a comment"
+              rows={3}
+              required
+              className="w-full border rounded px-2 py-1 bg-neutral-950 placeholder:text-neutral-500"
+            />
           </label>
           <button>Post</button>
           {error && <p role="alert">{error}</p>}

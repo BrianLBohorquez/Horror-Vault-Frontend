@@ -8,7 +8,8 @@ export default function Navbar() {
   return (
     <header id="navbar">
       <NavLink id="brand" to="/">
-        <p>Horror Vault</p>
+        <span className="underline decoration-white">Horror </span>
+        <span className="text-white underline decoration-red-600">Vault</span>
       </NavLink>
       <nav>
         <NavLink to="/movies">Movies</NavLink>

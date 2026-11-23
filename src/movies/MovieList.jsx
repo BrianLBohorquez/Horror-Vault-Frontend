@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { tagColors, tagShortNames } from "./tags";
+import { tagColors, tagShortNames, getStars } from "./tags";
 
 /** Shows a list of movies, each linking to its own page, in one sideways-scrolling row when scroll is set and with smaller posters when small is set. */
 export default function MovieList({ movies, scroll, small }) {
@@ -7,8 +7,8 @@ export default function MovieList({ movies, scroll, small }) {
     <ul
       className={
         scroll
-          ? "flex gap-6 overflow-x-auto snap-x pb-2"
-          : "flex flex-wrap gap-6"
+          ? "flex items-start gap-6 overflow-x-auto snap-x pb-2"
+          : "flex flex-wrap items-start gap-6"
       }
     >
       {movies.map((movie) => (
@@ -18,12 +18,20 @@ export default function MovieList({ movies, scroll, small }) {
   );
 }
 
-/** Shows one movie's poster, year, rating and tags. */
+/** Shows one movie's poster, year, rating (with a heart if Brian liked it) and tags. */
 function MovieListItem({ movie, small }) {
-  const width = small ? "w-24" : "w-32";
+  const width = small ? "w-28" : "w-32";
+  const cardWidth = small ? "w-30" : "w-34";
+  const pillSize = small ? "text-[0.625rem] px-0.5" : "text-xs px-1";
+  const starSize = small
+    ? "text-[0.625rem] px-0.5"
+    : "text-[0.625rem] leading-4 px-1";
+  const tags = [movie.subgenre, movie.subgenre_2, movie.subgenre_3].filter(
+    (tag) => tag,
+  );
 
   return (
-    <li className={width + " shrink-0 snap-start"}>
+    <li className={cardWidth + " shrink-0 snap-start rounded bg-red-950 p-1"}>
       <Link to={"/movies/" + movie.id} title={movie.title}>
         {movie.poster_url ? (
           <img
@@ -43,30 +51,58 @@ function MovieListItem({ movie, small }) {
           </div>
         )}
       </Link>
-      <div className="flex justify-between items-center gap-2 my-1">
-        <p className="rounded px-1 text-xs bg-red-900">{movie.year}</p>
-        {movie.rating ? (
-          <p className="rounded px-1 text-xs bg-red-900">{movie.rating}/5</p>
-        ) : (
-          <p className="rounded px-1 text-xs bg-red-900">Not rated</p>
-        )}
+      <div className="flex flex-col gap-1 mt-1">
+        <div className="flex justify-between items-start gap-1">
+          <p className={"rounded bg-blue-950 " + pillSize}>{movie.year}</p>
+          <TagList tags={tags.slice(0, 2)} pillSize={pillSize} />
+        </div>
+        <div className="flex justify-between items-start gap-1">
+          <div className="flex items-center gap-1 shrink-0">
+            {movie.rating ? (
+              <p
+                className={"rounded whitespace-nowrap bg-green-900 " + starSize}
+              >
+                {getStars(movie.rating)}
+              </p>
+            ) : (
+              <p className={"rounded bg-red-900 " + pillSize}>Not rated</p>
+            )}
+            {movie.liked && (
+              <span
+                aria-label="Liked"
+                className={
+                  "leading-none text-red-600 " + (small ? "text-xs" : "text-sm")
+                }
+              >
+                ♥
+              </span>
+            )}
+          </div>
+          <TagList tags={tags.slice(2)} pillSize={pillSize} />
+        </div>
       </div>
-      <ul className="flex flex-wrap gap-1">
-        {[movie.subgenre, movie.subgenre_2, movie.subgenre_3]
-          .filter((tag) => tag)
-          .map((tag) => (
-            <li
-              key={tag}
-              title={tag}
-              className={
-                "rounded px-1 text-xs text-white " +
-                (tagColors[tag] || "bg-neutral-600")
-              }
-            >
-              {tagShortNames[tag] || tag}
-            </li>
-          ))}
-      </ul>
     </li>
+  );
+}
+
+/** Shows a movie's tags as small colored pills, lined up from the right. */
+function TagList({ tags, pillSize }) {
+  return (
+    <ul className="flex flex-row-reverse gap-1">
+      {tags.map((tag) => (
+        <li
+          key={tag}
+          title={tag}
+          className={
+            "rounded text-white " +
+            pillSize +
+            " " +
+            (tagColors[tag] || "bg-neutral-600")
+          }
+        >
+          {tagShortNames[tag] || tag}
+        </li>
+      ))}
+    </ul>
   );
 }

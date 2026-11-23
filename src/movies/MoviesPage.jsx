@@ -21,6 +21,7 @@ export default function MoviesPage() {
   const [hiddenTags, setHiddenTags] = useState(
     searchParams.get("hide") ? searchParams.get("hide").split(",") : [],
   );
+  const [count, setCount] = useState(24);
 
   const half = Math.ceil(subgenres.length / 2);
 
@@ -59,6 +60,7 @@ export default function MoviesPage() {
 
   useEffect(() => {
     syncMovies();
+    setCount(24);
   }, [searchParams, token]);
 
   useEffect(() => {
@@ -105,95 +107,114 @@ export default function MoviesPage() {
   };
 
   return (
-    <>
-      <h1>Movies</h1>
-      <form
-        onSubmit={tryApply}
-        className="flex flex-wrap items-center gap-4 mb-4"
-      >
-        <label className="w-full sm:w-auto">
-          <span className="sr-only">Search By Title</span>
-          <input
-            type="text"
-            name="search"
-            placeholder="Search By Title"
-            className="w-full sm:w-80 border rounded px-2 py-1 bg-neutral-900 placeholder:text-neutral-500 focus:placeholder:text-transparent"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </label>
-        <details className="relative">
-          <summary>Subgenres</summary>
-          <div className="absolute z-10 w-max bg-neutral-900 p-2 text-sm sm:text-base">
-            <div className="flex flex-col gap-1 sm:flex-row sm:gap-0 sm:divide-x sm:divide-neutral-600">
-              <SubgenreColumn
-                subgenres={subgenres.slice(0, half)}
-                shownTags={shownTags}
-                hiddenTags={hiddenTags}
-                toggleShow={toggleShow}
-                toggleHide={toggleHide}
-              />
-              <SubgenreColumn
-                subgenres={subgenres.slice(half)}
-                shownTags={shownTags}
-                hiddenTags={hiddenTags}
-                toggleShow={toggleShow}
-                toggleHide={toggleHide}
-              />
-            </div>
-            <div className="flex gap-4 mt-2">
-              <button className="border rounded px-2">Apply</button>
-              <button
-                type="button"
-                className="border rounded px-2"
-                onClick={tryReset}
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </details>
-        <label className="flex items-center gap-2">
-          Sort by
-          <select
-            name="sort"
-            value={sort}
-            onChange={(e) => changeParams({ sort: e.target.value })}
-          >
-            <option value="title">Title</option>
-            <option value="year">Year</option>
-            <option value="logged">Date logged</option>
-            <option value="rating">Brian&apos;s Rating</option>
-          </select>
-        </label>
-        <label className="flex items-center gap-2">
-          Order
-          <select
-            name="order"
-            value={order}
-            onChange={(e) => changeParams({ order: e.target.value })}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-        </label>
-        {token && (
-          <label className="flex items-center gap-2">
-            Hide watched
+    <div className="flex flex-col gap-8">
+      <section className="rounded border border-neutral-800 bg-neutral-900 p-4">
+        <h1>Movies</h1>
+        <form onSubmit={tryApply} className="flex flex-wrap items-center gap-4">
+          <label className="w-full sm:w-auto">
+            <span className="sr-only">Search By Title</span>
             <input
-              type="checkbox"
-              name="watched"
-              checked={watched === "hide"}
-              onChange={(e) =>
-                changeParams({ watched: e.target.checked ? "hide" : "" })
-              }
+              type="text"
+              name="search"
+              placeholder="Search By Title"
+              className="w-full sm:w-80 border rounded px-2 py-1 bg-neutral-950 placeholder:text-neutral-500 focus:placeholder:text-transparent"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </label>
-        )}
-      </form>
-      <p>{movies.length} movies</p>
-      <MovieList movies={movies} />
-    </>
+          <details className="relative">
+            <summary className="list-none border rounded px-2 py-1 cursor-pointer hover:bg-neutral-800">
+              Subgenres ▾
+            </summary>
+            <div className="absolute z-10 w-max mt-1 rounded border border-neutral-700 bg-neutral-900 p-2 text-sm sm:text-base">
+              <div className="flex flex-col gap-1 sm:flex-row sm:gap-0 sm:divide-x sm:divide-neutral-600">
+                <SubgenreColumn
+                  subgenres={subgenres.slice(0, half)}
+                  shownTags={shownTags}
+                  hiddenTags={hiddenTags}
+                  toggleShow={toggleShow}
+                  toggleHide={toggleHide}
+                />
+                <SubgenreColumn
+                  subgenres={subgenres.slice(half)}
+                  shownTags={shownTags}
+                  hiddenTags={hiddenTags}
+                  toggleShow={toggleShow}
+                  toggleHide={toggleHide}
+                />
+              </div>
+              <div className="flex gap-4 mt-2">
+                <button>Apply</button>
+                <button type="button" onClick={tryReset}>
+                  Reset
+                </button>
+              </div>
+            </div>
+          </details>
+          <label className="flex items-center gap-2 border rounded px-2 py-1">
+            Sort by:
+            <select
+              name="sort"
+              className="border rounded px-1 bg-neutral-950 cursor-pointer hover:bg-neutral-800"
+              value={sort}
+              onChange={(e) =>
+                changeParams({
+                  sort: e.target.value,
+                  order: e.target.value === "rating" ? "desc" : "",
+                })
+              }
+            >
+              <option value="title">Title</option>
+              <option value="year">Year</option>
+              <option value="logged">Date logged</option>
+              <option value="rating">Brian&apos;s Rating</option>
+            </select>
+          </label>
+          <label className="flex items-center gap-2 border rounded px-2 py-1">
+            Order:
+            <select
+              name="order"
+              className="border rounded px-1 bg-neutral-950 cursor-pointer hover:bg-neutral-800"
+              value={order}
+              onChange={(e) => changeParams({ order: e.target.value })}
+            >
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </label>
+          {token && (
+            <label className="flex items-center gap-2 border rounded px-2 py-1 cursor-pointer">
+              Hide watched
+              <input
+                type="checkbox"
+                name="watched"
+                checked={watched === "hide"}
+                onChange={(e) =>
+                  changeParams({ watched: e.target.checked ? "hide" : "" })
+                }
+              />
+            </label>
+          )}
+        </form>
+      </section>
+      <section className="rounded border border-neutral-800 bg-neutral-900 p-4">
+        <p className="mb-4">
+          Showing {Math.min(count, movies.length)} of {movies.length} movies
+        </p>
+        <MovieList movies={movies.slice(0, count)} />
+        <div className="flex flex-col gap-4 mt-6 sm:grid sm:grid-cols-3 sm:items-center">
+          <p>
+            Showing {Math.min(count, movies.length)} of {movies.length} movies
+          </p>
+          {count < movies.length && (
+            <div className="flex gap-8 sm:justify-self-center">
+              <button onClick={() => setCount(count + 24)}>See more</button>
+              <button onClick={() => setCount(movies.length)}>See all</button>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }
 
